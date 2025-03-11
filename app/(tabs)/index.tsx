@@ -1,56 +1,67 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
+import { Image, StyleSheet, Platform,View,Text } from 'react-native';
+import {HStack} from '@/components/ui/hstack';
+import { SafeAreaView } from 'react-native-safe-area-context';
+// import { HelloWave } from '@/components/HelloWave';
+// import ParallaxScrollView from '@/components/ParallaxScrollView';
+// import { ThemedText } from '@/components/ThemedText';
+// import { ThemedView } from '@/components/ThemedView';
+import { Button, ButtonText } from '@/components/ui/button';
+import React from "react"
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogFooter,
+  AlertDialogBody,
+  AlertDialogBackdrop,
+} from "@/components/ui/alert-dialog"
+import { Heading } from "@/components/ui/heading";
+// import { Text } from "@/components/ui/text"
 export default function HomeScreen() {
+  const [showAlertDialog, setShowAlertDialog] = React.useState(false)
+  const handleClose = () => setShowAlertDialog(false)
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  <SafeAreaView>
+  {/* <HStack className="justify-between">
+    <Text className='text-2xl font-bold'>Home</Text>
+    <Text className='text-2xl font-bold'>Contact</Text>
+  </HStack> */}
+    {/* <Button size="xs" variant="solid" action="primary" style={styles.button}>
+      <ButtonText>Hello World!</ButtonText>
+    </Button> */}
+    <Button onPress={() => setShowAlertDialog(true)}>
+        <ButtonText>Open Dialog</ButtonText>
+      </Button>
+      <AlertDialog isOpen={showAlertDialog} onClose={handleClose} size="md">
+        <AlertDialogBackdrop />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <Heading className="text-typography-950 font-semibold" size="md">
+              Are you sure you want to delete this post?
+            </Heading>
+          </AlertDialogHeader>
+          <AlertDialogBody className="mt-3 mb-4">
+            <Text >
+              Deleting the post will remove it permanently and cannot be undone.
+              Please confirm if you want to proceed.
+            </Text>
+          </AlertDialogBody>
+          <AlertDialogFooter className="">
+            <Button
+              variant="outline"
+              action="secondary"
+              onPress={handleClose}
+              size="sm"
+            >
+              <ButtonText>Cancel</ButtonText>
+            </Button>
+            <Button size="sm" onPress={handleClose}>
+              <ButtonText>Delete</ButtonText>
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+  </SafeAreaView>
   );
 }
 
@@ -63,6 +74,12 @@ const styles = StyleSheet.create({
   stepContainer: {
     gap: 8,
     marginBottom: 8,
+  },
+  button: {
+    height: 30,
+    width: 200,
+    marginLeft:50,
+    marginTop:50,
   },
   reactLogo: {
     height: 178,
